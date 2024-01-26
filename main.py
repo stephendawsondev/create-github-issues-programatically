@@ -44,32 +44,28 @@ def create_issue(title, body=None, labels=[], assignees=[], project_column_id=No
         return None
 
 
-def add_issue_to_project(issue_number, project_column_id):
-    """ Add an issue to a project column """
-    url = f"https://api.github.com/projects/columns/{project_column_id}/cards"
+def add_card_to_column(column_id, issue_url):
+    """ Add a card to the specified project column """
+    url = f"https://api.github.com/projects/columns/{column_id}/cards"
     headers = {
         "Authorization": f"token {env.GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.inertia-preview+json"
+        "Accept": "application/vnd.github.v3+json"
     }
-    card_content = {
-        "content_id": issue_number,
-        "content_type": "Issue"
-    }
-    response = requests.post(url, json=card_content, headers=headers)
+    card_data = {"content_url": issue_url}
+    response = requests.post(url, json=card_data, headers=headers)
 
     if response.status_code == 201:
-        print(f"Issue added to project successfully: {issue_number}")
+        print("Card added to column successfully.")
     else:
-        print(f"Failed to add issue to project: {response.content}")
-        print(f"Response Status Code: {response.status_code}")
-        print(f"Response Headers: {response.headers}")
-        print(f"Request Payload: {card_content}")
+        print("Failed to add card to column.")
+        print(f"Response: {response.content}")
 
 
 project_column_id = get_column_id(env.PROJECT_ID, env.PROJECT_COLUMN_NAME)
 
+
 user_stories = [
-    # User story dictionaries go here
+    #  user stories go here!
 ]
 
 
@@ -91,5 +87,7 @@ for story in user_stories:
     labels = story["labels"]
     assignees = env.ASSIGNEES
 
-    create_issue(title, body, labels, assignees, project_column_id)
+    issue_data = create_issue(title, body, labels, assignees)
+    if issue_data:
+        add_card_to_column(project_column_id, issue_data['html_url'])
 print("All issues created.")
