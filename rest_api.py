@@ -63,11 +63,13 @@ def add_card_to_column(column_id, issue_url):
 
 project_column_id = get_column_id(env.PROJECT_ID, env.PROJECT_COLUMN_NAME)
 
-
 user_stories = [
     #  user stories go here!
 ]
 
+epics = [
+    #  epics go here!
+]
 
 standard_tasks = (
     "- [ ] Reviewed the user story for clarity and completeness.\n"
@@ -78,11 +80,14 @@ standard_tasks = (
 for story in user_stories:
     title = story["title"]
     body = (
-        f"### If applicable, add a related Epic.\n\n{story['related_epic']}\n\n"
+        f"### If applicable, add a related Epic.\n\n{
+            story['related_epic']}\n\n"
         f"### User Story\n\n{story['user_story']}\n\n"
         f"### Acceptance Criteria\n\n{story['acceptance_criteria']}\n\n"
-        f"### Please ensure you've completed these tasks before marking the issue as done.\n\n{standard_tasks}\n\n"
-        f"### Please add any further tasks that need to be completed before the issue can be marked as done.\n\n{story['further_tasks']}"
+        f"### Please ensure you've completed these tasks before marking the issue as done.\n\n{
+            standard_tasks}\n\n"
+        f"### Please add any further tasks that need to be completed before the issue can be marked as done.\n\n{
+            story['further_tasks']}"
     )
     labels = story["labels"]
     assignees = env.ASSIGNEES
@@ -90,4 +95,12 @@ for story in user_stories:
     issue_data = create_issue(title, body, labels, assignees)
     if issue_data:
         add_card_to_column(project_column_id, issue_data['html_url'])
+
 print("All issues created.")
+
+for epic in epics:
+    title = epic["title"]
+    body = (
+        f"### Epic\n\n{epic['description']}\n\n"
+    )
+    labels = epic["labels"]
