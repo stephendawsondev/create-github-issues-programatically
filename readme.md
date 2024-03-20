@@ -21,7 +21,7 @@ Have you had the situation where you've added all your user stories to the READM
    - Settings -> Developer settings -> Personal access tokens -> Generate new token -> Select all the repo -> Select issues editing permissions
 2. Get your project ID from the URL of your project board and add to your env.py file
 3. Get your default column name from the URL of your project board
-4. Add your user stories to the user_stories list in the `main.py` file in the following format:
+4. Add your user stories to the user_stories list in the `rest_api.py` file in the following format:
 
 ```python
 user_stories = [
@@ -38,7 +38,7 @@ user_stories = [
 
 ```
 
-5. Add your epics to the epics list in the `main.py` file in the following format:
+5. Add your epics to the epics list in the `rest_api.py` file in the following format:
 
 ```python
 epics = [
@@ -50,7 +50,7 @@ epics = [
 ]
 ```
 
-5. Run the script with `python3 main.py`
+5. Run the script with `python3 rest_api.py`
 
 ## Getting started (GraphQL)
 
